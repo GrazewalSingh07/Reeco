@@ -115,7 +115,7 @@ export const MyTableBody = () => {
                 <TableCell>${el.price}/6*1LB </TableCell>
                 <TableCell>{el.quantity}*6*1LB</TableCell>
                 <TableCell>${el.total}</TableCell>
-                <TableCell>{el.status}</TableCell>
+                <TableCell><Chip label={el.status} color={el.status=='approved'?'success': el.status== "Missing urgent"?"error":"warning"} /></TableCell>
                 <TableCell className="!flex">
                   <IconButton
                     onClick={() => {
@@ -199,7 +199,10 @@ export const MyTableBody = () => {
                     sx={{ width: 100 }}
                     placeholder="price"
                     onChange={(e) => {
-                      setEditVal({ ...editVal, price: e.target.value });
+                      if(e.target.value>=0){
+                        setEditVal({ ...editVal, price: e.target.value });
+                      }
+                    
                     }}
                     value={editVal?.price}
                   />
@@ -227,10 +230,12 @@ export const MyTableBody = () => {
                     <IconButton
                     variant='contained'
                       onClick={() => {
-                        setEditVal({
-                          ...editVal,
-                          quantity: editVal?.quantity - 1,
-                        });
+                        if(editVal.quantity>0){
+                          setEditVal({
+                            ...editVal,
+                            quantity: editVal?.quantity - 1,
+                          });
+                        }
                       }}
                       color="success"
                     >
